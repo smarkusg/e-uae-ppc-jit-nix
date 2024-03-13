@@ -169,7 +169,11 @@ void close_sound (void)
     }
     write_comm_pipe_int (&to_sound_pipe, 1, 1);
     uae_sem_wait (&sound_init_sem);
+
+/* SDLAUDIO is already closed with SDL2*/
+#ifndef __SDL12COMPAT__
     SDL_CloseAudio ();
+#endif
     uae_sem_destroy (&data_available_sem);
     uae_sem_destroy (&sound_init_sem);
     uae_sem_destroy (&callback_done_sem);
